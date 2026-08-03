@@ -54,7 +54,9 @@ npm run start
 Team-shared config: [`.copilot/mcp-config.json`](../.copilot/mcp-config.json)
 
 - `excel-mcp` — requires `mcp-excel` on PATH (see [INSTALLATION-MCP-SERVER.md](INSTALLATION-MCP-SERVER.md))
-- `cutline-api` — fetch MCP; set `CUTLINE_API_URL` in environment
+- `cutline-api` — launches Cutline's phone-approval-lite MCP bridge via [`scripts/start-cutline-api-mcp.ps1`](../scripts/start-cutline-api-mcp.ps1); set `CUTLINE_REPO_ROOT` and `CUTLINE_API_URL`
+
+Approval-gated ops runbook: [CUTLINE-OPS-USECASE.md](CUTLINE-OPS-USECASE.md)
 
 VS Code workspace override: [`.vscode/mcp.json`](../.vscode/mcp.json)
 

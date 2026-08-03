@@ -6,10 +6,11 @@
       "env": {}
     },
     "cutline-api": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "command": "pwsh",
+      "args": ["-NoLogo", "-NoProfile", "-File", "scripts/start-cutline-api-mcp.ps1"],
       "env": {
-        "CUTLINE_API_URL": "${CUTLINE_API_URL}"
+        "CUTLINE_API_URL": "${CUTLINE_API_URL}",
+        "CUTLINE_REPO_ROOT": "${CUTLINE_REPO_ROOT}"
       }
     }
   }
