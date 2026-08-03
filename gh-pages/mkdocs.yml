@@ -90,6 +90,7 @@ nav:
     - Agent Skills: skills.md
     - Troubleshooting & FAQ: troubleshooting.md
     - Architecture: architecture.md
+    - Cutline ops use case: cutline-ops-use-case.md
     - Changelog: changelog.md
     - Contributing: contributing.md
     - Security: security.md
