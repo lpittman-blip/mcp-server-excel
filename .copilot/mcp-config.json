@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "excel-mcp": {
+      "command": "mcp-excel",
+      "args": [],
+      "env": {}
+    },
+    "cutline-api": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "env": {
+        "CUTLINE_API_URL": "${CUTLINE_API_URL}"
+      }
+    }
+  }
+}

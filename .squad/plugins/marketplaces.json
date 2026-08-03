@@ -1,0 +1,15 @@
+{
+  "marketplaces": [
+    {
+      "name": "awesome-copilot",
+      "source": "github/awesome-copilot",
+      "added_at": "2026-02-14T00:00:00Z"
+    },
+    {
+      "name": "cutline-industries",
+      "source": "github/lpittman-g/Cutline-Industries",
+      "added_at": "2026-08-03T00:00:00Z",
+      "notes": "Thermal Mission Control, revenue ops, agent tools (phone-approval-lite, email-to-cursor)"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ name: Excel Integration Tests
 
 on:
   pull_request:
-    types: [opened, ready_for_review]
+    types: [opened, ready_for_review, synchronize]
   workflow_dispatch:
     inputs:
       scope:
@@ -36,9 +36,46 @@ env:
   AZURE_VM_NAME: vm-excel-runner
 
 jobs:
+  check-runner-config:
+    name: Check Excel runner prerequisites
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+      azure_ready: ${{ steps.check.outputs.azure_ready }}
+    steps:
+      - name: Evaluate PR and Azure secrets
+        id: check
+        shell: bash
+        run: |
+          SHOULD_RUN=false
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            SHOULD_RUN=true
+          elif [ "${{ github.event.pull_request.head.repo.full_name }}" = "${{ github.repository }}" ] && [ "${{ github.event.pull_request.draft }}" = "false" ]; then
+            SHOULD_RUN=true
+          fi
+
+          AZURE_READY=false
+          if [ -n "${{ secrets.AZURE_CLIENT_ID }}" ] && [ -n "${{ secrets.AZURE_TENANT_ID }}" ] && [ -n "${{ secrets.AZURE_SUBSCRIPTION_ID }}" ]; then
+            AZURE_READY=true
+          fi
+
+          echo "should_run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
+          echo "azure_ready=$AZURE_READY" >> "$GITHUB_OUTPUT"
+
+  integration-tests-skipped:
+    name: Excel integration tests skipped
+    needs: check-runner-config
+    if: needs.check-runner-config.outputs.should_run == 'true' && needs.check-runner-config.outputs.azure_ready != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notice
+        run: |
+          echo "::notice title=Excel integration tests skipped::Configure AZURE_CLIENT_ID, AZURE_TENANT_ID, and AZURE_SUBSCRIPTION_ID repository secrets to run the self-hosted Excel runner. See docs/FORK-CI-SETUP.md."
+
   start-runner:
     name: Start Excel runner
-    if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.draft == false)
+    needs: check-runner-config
+    if: needs.check-runner-config.outputs.should_run == 'true' && needs.check-runner-config.outputs.azure_ready == 'true'
     runs-on: ubuntu-latest
     outputs:
       shutdown-time: ${{ steps.watchdog.outputs.shutdown-time }}
@@ -70,7 +107,8 @@ jobs:
 
   integration-tests:
     name: ${{ (github.event_name == 'pull_request' || inputs.scope == 'full') && 'Full Excel integration suite' || 'Scoped Excel integration tests' }}
-    needs: start-runner
+    needs: [check-runner-config, start-runner]
+    if: needs.check-runner-config.outputs.should_run == 'true' && needs.check-runner-config.outputs.azure_ready == 'true'
     runs-on: [self-hosted, windows, excel]
     timeout-minutes: 300
     env:
@@ -274,8 +312,8 @@ jobs:
 
   deallocate-runner:
     name: Deallocate Excel runner
-    if: always() && (github.event_name == 'workflow_dispatch' || (github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.draft == false))
-    needs: [start-runner, integration-tests]
+    if: always() && needs.check-runner-config.outputs.should_run == 'true' && needs.check-runner-config.outputs.azure_ready == 'true' && needs.start-runner.result != 'skipped'
+    needs: [check-runner-config, start-runner, integration-tests]
     runs-on: ubuntu-latest
     steps:
       - name: Azure login
