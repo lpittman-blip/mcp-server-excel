@@ -44,3 +44,12 @@ If you make a decision that affects other team members, write it to:
 .squad/decisions/inbox/copilot-{brief-slug}.md
 ```
 The Scribe will merge it into the shared decisions file.
+
+## Autopilot mode (Cutline fork)
+
+When the operator says **"run on automatic autopilot"** or **"execute anyway / override"**:
+
+1. Autopilot agent (`.squad/agents/autopilot/charter.md`) may proceed without confirmation for 🟢 tasks: docs, JSON config, CI YAML, marketplace entries.
+2. Trigger manual validation: **Actions → Squad Autopilot → Run workflow → force_run: true**.
+3. Read `docs/cutline-integration.md` for Cutline API + Excel MCP combined workflows.
+4. Never commit secrets — use `${CUTLINE_API_URL}`, `${STRIPE_SECRET_KEY}`, etc.

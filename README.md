@@ -3,7 +3,8 @@
 [![VS Code Marketplace Installs](https://vsmarketplacebadges.dev/installs-short/sbroenne.excel-mcp.svg?label=VS%20Code%20Installs)](https://marketplace.visualstudio.com/items?itemName=sbroenne.excel-mcp)
 [![Downloads](https://img.shields.io/github/downloads/sbroenne/mcp-server-excel/total?label=GitHub%20Downloads)](https://github.com/sbroenne/mcp-server-excel/releases)
 
-[![CI Gate](https://github.com/sbroenne/mcp-server-excel/actions/workflows/ci.yml/badge.svg)](https://github.com/sbroenne/mcp-server-excel/actions/workflows/ci.yml)
+[![CI Gate](https://github.com/lpittman-g/mcp-server-excel/actions/workflows/ci.yml/badge.svg)](https://github.com/lpittman-g/mcp-server-excel/actions/workflows/ci.yml)
+[![Squad Autopilot](https://github.com/lpittman-g/mcp-server-excel/actions/workflows/squad-autopilot.yml/badge.svg)](https://github.com/lpittman-g/mcp-server-excel/actions/workflows/squad-autopilot.yml)
 [![Release](https://img.shields.io/github/v/release/sbroenne/mcp-server-excel)](https://github.com/sbroenne/mcp-server-excel/releases/latest)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -29,6 +30,9 @@
 > [!TIP]
 > **Also building PowerPoint decks?** Check out [PowerPoint MCP Server](https://powerpointmcpserver.dev/) —
 > the sister project, built the same way.
+>
+> **Running Thermal / Cutline ops?** See [Cutline Industries integration](docs/cutline-integration.md) —
+> live revenue, clips, and Mission Control API wired to Excel workbooks.
 
 ## 🎯 What You Can Do
 
@@ -261,3 +265,7 @@ Other projects by the author:
 - [pytest-skill-engineering](https://github.com/sbroenne/pytest-skill-engineering) — LLM-powered testing framework for AI agents
 - [Windows MCP Server](https://windowsmcpserver.dev/) — AI-powered Windows automation via MCP
 - [OBS Studio MCP Server](https://github.com/sbroenne/mcp-server-obs) — AI-powered OBS Studio automation
+
+### Cutline Industries (fork integration)
+
+This fork adds ops integration with [Cutline Industries](https://github.com/lpittman-g/Cutline-Industries) — Thermal Mission Control, Stripe revenue, and agent tooling. See [docs/cutline-integration.md](docs/cutline-integration.md) for API endpoints, MCP config, and Excel↔Cutline workflows.

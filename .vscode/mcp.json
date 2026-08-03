@@ -1,4 +1,16 @@
 {
-	"inputs": [],
-	"servers": {}
+  "inputs": [
+    {
+      "id": "cutline-api-url",
+      "type": "promptString",
+      "description": "Cutline Industries API base URL",
+      "default": "http://127.0.0.1:8787"
+    }
+  ],
+  "servers": {
+    "excel-mcp": {
+      "type": "stdio",
+      "command": "mcp-excel"
+    }
+  }
 }

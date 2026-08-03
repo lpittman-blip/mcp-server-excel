@@ -12,6 +12,7 @@ How to decide who handles what.
 | Integration tests, test fixtures, quality | Nate | Write tests, fix flaky tests, round-trip validation, TDD red-green |
 | Skills, docs, READMEs, CHANGELOG, release | Trejo | Update SKILL.md, README counts, FEATURES.md, gh-pages, CHANGELOG |
 | Copilot CLI plugin packaging, `*.agent.md`, `hooks.json`, plugin `.mcp.json`, marketplace submission | Kelso | Bundle skills+MCP as Copilot CLI plugin, submit to github/copilot-plugins |
+| Autopilot config, Cutline integration, CI workflows, marketplace/MCP JSON | Autopilot | `.copilot/mcp-config.json`, `squad-autopilot.yml`, Cutline sister-repo docs |
 | Architecture, API design, exception patterns | McCauley | Review PRs, architectural decisions, pattern enforcement |
 | Code review | McCauley | Review PRs, check quality, enforce Critical Rules |
 | Testing | Nate | Write tests, find edge cases, verify fixes |
@@ -53,6 +54,7 @@ How to decide who handles what.
 | Integration tests, quality | Nate | — |
 | Skills, docs, release | Trejo | — |
 | Copilot CLI plugin packaging & distribution | Kelso | Trejo (skill content), Cheritto (MCP wiring) |
+| Autopilot, Cutline ops integration, fork CI/config | Autopilot | Trejo (docs), McCauley (if touching src/) |
 
 ## Mandatory Review Gate
 
