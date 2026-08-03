@@ -21,6 +21,15 @@ Other open-source projects by the author that pair well with Excel MCP Server:
 
     [:octicons-arrow-right-24: powerpointmcpserver.dev](https://powerpointmcpserver.dev/)
 
+-   :material-rocket-launch-outline:{ .lg .middle } __Cutline Industries__
+
+    ---
+
+    Approval-gated autopilot and operational APIs that pair with this fork for
+    operator-in-the-loop Excel runbooks.
+
+    [:octicons-arrow-right-24: View on GitHub](https://github.com/lpittman-g/Cutline-Industries)
+
 -   :material-test-tube:{ .lg .middle } __pytest-skill-engineering__
 
     ---

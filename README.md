@@ -1,14 +1,14 @@
 # ExcelMcp - MCP Server for Microsoft Excel
 
 [![VS Code Marketplace Installs](https://vsmarketplacebadges.dev/installs-short/sbroenne.excel-mcp.svg?label=VS%20Code%20Installs)](https://marketplace.visualstudio.com/items?itemName=sbroenne.excel-mcp)
-[![Downloads](https://img.shields.io/github/downloads/sbroenne/mcp-server-excel/total?label=GitHub%20Downloads)](https://github.com/sbroenne/mcp-server-excel/releases)
+[![Downloads](https://img.shields.io/github/downloads/lpittman-g/mcp-server-excel/total?label=GitHub%20Downloads)](https://github.com/lpittman-g/mcp-server-excel/releases)
 
-[![CI Gate](https://github.com/sbroenne/mcp-server-excel/actions/workflows/ci.yml/badge.svg)](https://github.com/sbroenne/mcp-server-excel/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/sbroenne/mcp-server-excel)](https://github.com/sbroenne/mcp-server-excel/releases/latest)
+[![CI Gate](https://github.com/lpittman-g/mcp-server-excel/actions/workflows/ci.yml/badge.svg)](https://github.com/lpittman-g/mcp-server-excel/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/lpittman-g/mcp-server-excel)](https://github.com/lpittman-g/mcp-server-excel/releases/latest)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET](https://img.shields.io/badge/.NET-10-blue.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
-[![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://github.com/sbroenne/mcp-server-excel)
+[![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://github.com/lpittman-g/mcp-server-excel)
 [![Built with Copilot](https://img.shields.io/badge/Built%20with-GitHub%20Copilot-0366d6.svg)](https://copilot.github.com/)
 
 **Automate Excel with AI** — A Model Context Protocol (MCP) server for comprehensive Excel automation through conversational AI.
@@ -29,6 +29,12 @@
 > [!TIP]
 > **Also building PowerPoint decks?** Check out [PowerPoint MCP Server](https://powerpointmcpserver.dev/) —
 > the sister project, built the same way.
+
+> [!TIP]
+> **Running approval-gated ops workflows?** Pair this fork with
+> [Cutline Industries](https://github.com/lpittman-g/Cutline-Industries) for
+> phone approval, operational APIs, and autopilot runbooks. See the
+> [Cutline ops use case](docs/CUTLINE-OPS-USECASE.md).
 
 ## 🎯 What You Can Do
 
@@ -79,6 +85,7 @@ Formatting split: number display formats use the `range` tool, while visual styl
 - *"Export all Power Query M code to files for version control"*
 - *"Run the UpdatePrices macro"*
 - *"Show me Excel while you work"* - watch changes in real-time
+- *"Request Cutline phone approval, then refresh the workbook and capture a screenshot for review"* - combine Cutline approval flows with Excel automation
 
 **🪟 Agent Mode — Watch AI Work in Excel:**
 - *"Show me Excel side-by-side while you build this dashboard"* - real-time visibility
@@ -97,6 +104,17 @@ Formatting split: number display formats use the `range` tool, while visual styl
 - ❌ Server-side data processing (use libraries like ClosedXML, EPPlus instead)
 - ❌ Linux/macOS users (Windows + Excel installation required)
 - ❌ High-volume batch operations (consider Excel-free alternatives)
+
+## 🤝 Cutline operations use case
+
+This fork is wired to pair Excel automation with
+[Cutline Industries](https://github.com/lpittman-g/Cutline-Industries):
+
+- use Cutline's approval workflow before sensitive operational steps
+- refresh, shape, and validate workbook data with Excel MCP Server
+- capture screenshots and workbook outputs for operator review
+
+📖 **[Cutline ops runbook →](docs/CUTLINE-OPS-USECASE.md)**
 
 
 ## 🚀 Quick Start
@@ -162,7 +180,7 @@ copilot plugin install excel-cli@mcp-server-excel-plugins      # For scripting /
 **Manual Installation:**
 ```powershell
 # Primary: Download standalone executables from latest release (no .NET runtime required)
-# https://github.com/sbroenne/mcp-server-excel/releases/latest
+# https://github.com/lpittman-g/mcp-server-excel/releases/latest
 # - ExcelMcp-MCP-Server-{version}-windows.zip → extract mcp-excel.exe
 # - ExcelMcp-CLI-{version}-windows.zip → extract excelcli.exe (optional, for scripting)
 
@@ -178,8 +196,8 @@ npx add-mcp "mcp-excel" --name excel-mcp
 
 ```powershell
 # Optional: Install agent skills for better AI guidance
-npx skills add sbroenne/mcp-server-excel --skill excel-cli   # Coding agents
-npx skills add sbroenne/mcp-server-excel --skill excel-mcp   # Conversational AI
+npx skills add lpittman-g/mcp-server-excel --skill excel-cli   # Coding agents
+npx skills add lpittman-g/mcp-server-excel --skill excel-mcp   # Conversational AI
 ```
 
 > 💡 **Skills provide AI guidance** - The CLI skill is highly recommended (agents don't work perfectly with CLI without it). The MCP skill is recommended - it adds workflow best practices and reduces token usage.
@@ -233,7 +251,7 @@ The AI will display the Excel window so you can watch every operation happen liv
 
 ## ⭐ GitHub Star History
 
-[![GitHub stars over time for ExcelMcp](https://excelmcpserver.dev/assets/images/star-history.svg)](https://github.com/sbroenne/mcp-server-excel/stargazers)
+[![GitHub stars over time for ExcelMcp](https://excelmcpserver.dev/assets/images/star-history.svg)](https://github.com/lpittman-g/mcp-server-excel/stargazers)
 
 Updated daily from GitHub's stargazer data.
 
@@ -258,6 +276,7 @@ Updated daily from GitHub's stargazer data.
 Other projects by the author:
 
 - [PowerPoint MCP Server](https://powerpointmcpserver.dev/) — AI-powered PowerPoint automation via MCP, the sister project to this one
+- [Cutline Industries](https://github.com/lpittman-g/Cutline-Industries) — approval-gated autopilot and operational APIs that pair with this fork for runbook-driven Excel workflows
 - [pytest-skill-engineering](https://github.com/sbroenne/pytest-skill-engineering) — LLM-powered testing framework for AI agents
 - [Windows MCP Server](https://windowsmcpserver.dev/) — AI-powered Windows automation via MCP
 - [OBS Studio MCP Server](https://github.com/sbroenne/mcp-server-obs) — AI-powered OBS Studio automation

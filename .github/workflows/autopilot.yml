@@ -1,0 +1,125 @@
+name: Autopilot Operator
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Autopilot run mode
+        required: true
+        type: choice
+        default: validate
+        options:
+          - validate
+          - runbook
+          - approval-only
+      run_windows_steps:
+        description: Run Windows-only smoke steps
+        required: true
+        type: boolean
+        default: false
+      cutline_api_url:
+        description: Cutline API base URL for summaries and Windows validation
+        required: false
+        type: string
+        default: http://127.0.0.1:8787
+      cutline_repo_root:
+        description: Local Cutline checkout path for Windows validation
+        required: false
+        type: string
+        default: ../Cutline-Industries
+
+permissions:
+  contents: read
+
+concurrency:
+  group: autopilot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  autopilot-summary:
+    name: Autopilot summary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Validate repo-level autopilot files
+        shell: pwsh
+        run: |
+          $requiredFiles = @(
+            ".copilot/mcp-config.json",
+            ".squad/plugins/marketplaces.json",
+            ".squad/agents/autopilot/charter.md",
+            "docs/CUTLINE-OPS-USECASE.md",
+            "scripts/start-cutline-api-mcp.ps1"
+          )
+
+          foreach ($file in $requiredFiles) {
+            if (-not (Test-Path $file)) {
+              throw "Required autopilot file missing: $file"
+            }
+          }
+
+      - name: Validate JSON payloads
+        shell: pwsh
+        run: |
+          Get-Content ".copilot/mcp-config.json" -Raw | ConvertFrom-Json | Out-Null
+          Get-Content ".squad/plugins/marketplaces.json" -Raw | ConvertFrom-Json | Out-Null
+
+      - name: Autopilot run summary
+        shell: pwsh
+        env:
+          MODE: ${{ inputs.mode }}
+          CUTLINE_API_URL: ${{ inputs.cutline_api_url }}
+          CUTLINE_REPO_ROOT: ${{ inputs.cutline_repo_root }}
+          RUN_WINDOWS_STEPS: ${{ inputs.run_windows_steps }}
+        run: |
+          @"
+          ## Autopilot Operator
+          - Mode: $env:MODE
+          - Windows steps requested: $env:RUN_WINDOWS_STEPS
+          - Cutline API URL: $env:CUTLINE_API_URL
+          - Cutline repo root: $env:CUTLINE_REPO_ROOT
+
+          This workflow is CI-safe by default. Windows-only validation stays gated behind the run_windows_steps input.
+          "@ | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append
+
+  windows-smoke:
+    name: Windows smoke (gated)
+    needs: autopilot-summary
+    if: ${{ inputs.run_windows_steps }}
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore Sbroenne.ExcelMcp.sln
+
+      - name: Build (Release)
+        run: dotnet build Sbroenne.ExcelMcp.sln --configuration Release --no-restore -p:NuGetAudit=false
+
+      - name: Validate Cutline MCP launcher
+        shell: pwsh
+        env:
+          CUTLINE_API_URL: ${{ inputs.cutline_api_url }}
+          CUTLINE_REPO_ROOT: ${{ inputs.cutline_repo_root }}
+        run: |
+          & .\scripts\start-cutline-api-mcp.ps1 -ValidateOnly
+          if ($LASTEXITCODE -ne 0) {
+            throw "Cutline MCP launcher validation failed."
+          }
+
+      - name: Verify CLI build + help
+        shell: pwsh
+        run: |
+          $exe = "src/ExcelMcp.CLI/bin/Release/net10.0-windows/excelcli.exe"
+          if (-not (Test-Path $exe)) { throw "excelcli.exe not found at $exe" }
+          $help = & $exe --help 2>&1
+          if ($LASTEXITCODE -ne 0) { throw "excelcli --help failed with exit code $LASTEXITCODE" }
+          Write-Host "excelcli --help OK"

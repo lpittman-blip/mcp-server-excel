@@ -256,6 +256,7 @@ excel-mcp-bug-report.md
 .squad/sessions/
 .squad-workstream
 .copilot/*
+!.copilot/mcp-config.json
 
 
 # Throwaway spike directories

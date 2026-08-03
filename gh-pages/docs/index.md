@@ -59,6 +59,12 @@ hide:
     Check out [PowerPoint MCP Server](https://powerpointmcpserver.dev/) — the
     sister project, built the same way.
 
+!!! tip "Need approval-gated operations?"
+    Pair this fork with
+    [Cutline Industries](https://github.com/lpittman-g/Cutline-Industries) for
+    operator approval and operational API steps, then let Excel MCP Server do
+    the workbook work. See the dedicated [Cutline ops use case](cutline-ops-use-case.md).
+
 ## Key features
 
 <div class="grid cards" markdown>
@@ -160,6 +166,13 @@ Ask your AI assistant in plain language — it drives Excel for you:
 
     The AI imports the data, adds it to Power Pivot and creates DAX measures
     ready for analysis.
+
+!!! example "🤝 Cutline approval + Excel automation"
+    **You:** "Request Cutline approval for the finance refresh, then update the
+    workbook, recalculate totals and capture a screenshot of the summary."
+
+    The AI uses Cutline for the approval gate, then continues with Excel
+    automation after the operator approves the run.
 
 !!! example "🎨 Formatting &amp; tables"
     **You:** "Format the Price column as currency, highlight values over $500 in
