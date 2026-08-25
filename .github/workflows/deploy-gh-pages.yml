@@ -40,22 +40,24 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    env:
+      STAR_HISTORY_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
       - name: Generate star history chart
+        if: ${{ env.STAR_HISTORY_TOKEN != '' }}
         shell: pwsh
-        env:
-          # The default GITHUB_TOKEN can no longer read the timestamp-enriched
-          # stargazers endpoint (403 as of 2026). Configure a fine-grained PAT with
-          # `metadata: read` as the STAR_HISTORY_TOKEN secret to refresh the chart.
-          STAR_HISTORY_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN || github.token }}
         run: >
           ./scripts/Update-StarHistory.ps1
           -Repository '${{ github.repository }}'
           -Token $env:STAR_HISTORY_TOKEN
           -OutputPath './gh-pages/docs/assets/images/star-history.svg'
+
+      - name: Skip star history chart refresh
+        if: ${{ env.STAR_HISTORY_TOKEN == '' }}
+        run: echo "STAR_HISTORY_TOKEN is not configured; using the checked-in star-history.svg file."
 
       - name: Setup Python
         uses: actions/setup-python@v6
